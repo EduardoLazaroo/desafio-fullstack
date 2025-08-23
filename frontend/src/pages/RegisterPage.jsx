@@ -1,6 +1,6 @@
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { registerUser } from "../services/authService";
 import "../App.css";
 
 const RegisterPage = () => {
@@ -8,10 +8,9 @@ const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
@@ -19,36 +18,30 @@ const RegisterPage = () => {
       return;
     }
 
-    const registerData = { 
-      name, 
-      email, 
-      password, 
-      password_confirmation: confirmPassword 
-    };
-
-    axios
-      .post("http://localhost:8000/api/register", registerData)
-      .then((response) => {
-        console.log(response.data);
-        localStorage.setItem("token", response.data.token);
-        navigate("/home");
-      })
-      .catch((error) => {
-        if (error.response && error.response.data.errors) {
-          const errors = Object.values(error.response.data.errors).flat().join("\n");
-          alert(errors);
-        } else {
-          alert("Erro ao registrar. Tente novamente.");
-        }
-        console.error(error.response ? error.response.data : error.message);
-      });
+    try {
+      const response = await registerUser(
+        name,
+        email,
+        password,
+        confirmPassword
+      );
+      localStorage.setItem("token", response.token);
+      navigate("/home");
+    } catch (error) {
+      console.error(error);
+      if (error.errors) {
+        const errors = Object.values(error.errors).flat().join("\n");
+        alert(errors);
+      } else {
+        alert("Erro ao registrar. Tente novamente.");
+      }
+    }
   };
 
   return (
     <div className="login-container">
       <div className="card">
         <h2>Crie sua conta</h2>
-
         <form onSubmit={handleSubmit}>
           <div className="input-group">
             <label htmlFor="name">Nome</label>

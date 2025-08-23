@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { addMovie } from "../../services/movieService";
+import "../MovieForm/MovieForm.css";
 
 const MovieForm = () => {
   const [title, setTitle] = useState("");
@@ -11,7 +12,7 @@ const MovieForm = () => {
   
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const movieData = {
@@ -22,13 +23,12 @@ const MovieForm = () => {
       poster_url: posterUrl,
     };
 
-    axios.post("http://localhost:8000/api/movies", movieData)
-      .then(() => {
-        navigate("/");
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    try {
+      await addMovie(movieData);
+      navigate("/");
+    } catch (error) {
+      console.error("Error adding movie:", error);
+    }
   };
 
   return (

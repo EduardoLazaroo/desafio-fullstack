@@ -1,28 +1,24 @@
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { loginUser } from "../services/authService";
 import "../App.css";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const loginData = { email, password };
-
-    axios
-      .post("http://localhost:8000/api/login", loginData)
-      .then((response) => {
-        localStorage.setItem("token", response.data.token);
-        navigate("/home");
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    try {
+      const response = await loginUser(email, password);
+      localStorage.setItem("token", response.token);
+      navigate("/home");
+    } catch (error) {
+      console.error(error);
+      alert("Erro ao fazer login. Verifique suas credenciais.");
+    }
   };
 
   const goRegister = () => {
@@ -33,7 +29,6 @@ const LoginPage = () => {
     <div className="login-container">
       <div className="card">
         <h2>Entre com seu login</h2>
-
         <form onSubmit={handleSubmit}>
           <div className="input-group">
             <label htmlFor="email">E-mail</label>

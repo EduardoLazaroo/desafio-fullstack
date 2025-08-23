@@ -1,17 +1,22 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { getMovieById } from "../../services/movieService";
+import "../MovieDetails/MovieDetails.css";
 
 const MovieDetails = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
 
   useEffect(() => {
-    axios.get(`http://localhost:8000/api/movies/${id}`)
-      .then(response => {
-        setMovie(response.data);
-      })
-      .catch(error => console.error(error));
+    const fetchMovie = async () => {
+      try {
+        const data = await getMovieById(id);
+        setMovie(data);
+      } catch (error) {
+        console.error("Error fetching movie details:", error);
+      }
+    };
+    fetchMovie();
   }, [id]);
 
   if (!movie) return <div>Loading...</div>;
