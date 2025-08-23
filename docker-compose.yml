@@ -30,5 +30,21 @@ services:
     volumes:
       - db_data:/var/lib/mysql
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: react_app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      - app
+    volumes:
+      - ./frontend:/app
+    working_dir: /app
+    environment:
+      - NODE_ENV=development
+
 volumes:
   db_data:
