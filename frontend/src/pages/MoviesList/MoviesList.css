@@ -1,0 +1,74 @@
+/* Container geral */
+.movies-list-container {
+  padding: 2rem;
+  background: var(--background-color);
+  min-height: 100vh;
+}
+
+.movies-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.movies-list-header h1 {
+  font-size: 2rem;
+  color: var(--text-color);
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.movies-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 0.8rem;
+  overflow: hidden;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.movies-table thead {
+  background: var(--primary-color);
+  color: white;
+}
+
+.movies-table th,
+.movies-table td {
+  padding: 1rem;
+  text-align: left;
+  font-size: 1rem;
+  border-bottom: 1px solid var(--neutral-dark);
+}
+
+.movies-table tbody tr:hover {
+  background: var(--neutral-light);
+}
+
+.synopsis-col {
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.poster-thumb {
+  width: 60px;
+  height: auto;
+  border-radius: 0.4rem;
+  object-fit: cover;
+}
+
+.no-data {
+  text-align: center;
+  padding: 1.5rem;
+  font-style: italic;
+  color: var(--text-light);
+}
+
+.no-poster {
+  color: var(--text-light);
+}
+

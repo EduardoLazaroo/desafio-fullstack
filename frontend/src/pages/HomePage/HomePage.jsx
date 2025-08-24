@@ -7,6 +7,11 @@ const HomePage = () => {
   const goCreateMovie = () => {
     navigate("/movies/new");
   };
+
+  const goList = () => {
+    navigate("/movies");
+  };
+
   return (
     <div className="home-container">
       <section className="intro-section">
@@ -22,11 +27,18 @@ const HomePage = () => {
       <section className="movies-section">
         <div className="section-header">
           <h2>Filmes para assistir</h2>
-          <button className="btn-add" onClick={goCreateMovie}>Cadastrar novo filme</button>
+          <div className="actions">
+            <button className="btn btn-primary" onClick={goCreateMovie}>
+              Cadastrar novo filme
+            </button>
+            <button className="btn btn-primary" onClick={goList}>
+              Lista de filmes
+            </button>
+          </div>
         </div>
 
         <div className="card-grid">
-          <div className="movie-card">
+          <div className="card movie-card">
             <img
               src="https://via.placeholder.com/150"
               alt="Capa do filme"
@@ -36,7 +48,7 @@ const HomePage = () => {
             <p>Uma breve descrição do filme para despertar interesse.</p>
           </div>
 
-          <div className="movie-card">
+          <div className="card movie-card">
             <img
               src="https://via.placeholder.com/150"
               alt="Capa do filme"
@@ -51,7 +63,7 @@ const HomePage = () => {
       <section className="movies-section">
         <h2>Histórico assistido</h2>
         <div className="card-grid">
-          <div className="movie-card">
+          <div className="card movie-card">
             <img
               src="https://via.placeholder.com/150"
               alt="Capa do filme"

@@ -19,15 +19,27 @@ const MovieDetails = () => {
     fetchMovie();
   }, [id]);
 
-  if (!movie) return <div>Loading...</div>;
+  if (!movie) return <div className="loading">Carregando...</div>;
 
   return (
-    <div>
-      <h1>{movie.title}</h1>
-      <p>Release Year: {movie.release_year}</p>
-      <p>Genre: {movie.genre}</p>
-      <p>{movie.synopsis}</p>
-      <img src={movie.poster_url} alt={movie.title} />
+    <div className="movie-details-container">
+      <div className="card movie-details-card">
+        <img
+          src={movie.poster_url}
+          alt={movie.title}
+          className="movie-poster"
+        />
+        <div className="movie-info">
+          <h1>{movie.title}</h1>
+          <p>
+            <strong>Ano:</strong> {movie.release_year}
+          </p>
+          <p>
+            <strong>Gênero:</strong> {movie.genre}
+          </p>
+          <p>{movie.synopsis}</p>
+        </div>
+      </div>
     </div>
   );
 };

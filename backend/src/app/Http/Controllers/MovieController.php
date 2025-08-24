@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Movie;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
@@ -10,18 +9,18 @@ class MovieController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api')->except(['index', 'show']);
+        $this->middleware('auth:api');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $movies = Movie::all();
+        $movies = $request->user()->movies()->get();
         return response()->json($movies);
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        $movie = Movie::find($id);
+        $movie = $request->user()->movies()->find($id);
 
         if (!$movie) {
             return response()->json(['message' => 'Movie not found'], 404);
@@ -40,14 +39,20 @@ class MovieController extends Controller
             'poster_url'   => 'nullable|url',
         ]);
 
-        $movie = Movie::create($request->all());
+        $movie = $request->user()->movies()->create($request->only([
+            'title',
+            'release_year',
+            'genre',
+            'synopsis',
+            'poster_url'
+        ]));
 
         return response()->json($movie, 201);
     }
 
     public function update(Request $request, $id)
     {
-        $movie = Movie::find($id);
+        $movie = $request->user()->movies()->find($id);
 
         if (!$movie) {
             return response()->json(['message' => 'Movie not found'], 404);
@@ -66,9 +71,9 @@ class MovieController extends Controller
         return response()->json($movie);
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        $movie = Movie::find($id);
+        $movie = $request->user()->movies()->find($id);
 
         if (!$movie) {
             return response()->json(['message' => 'Movie not found'], 404);

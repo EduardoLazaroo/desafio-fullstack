@@ -40,11 +40,21 @@ function App() {
             }
           />
           <Route
-            path="/movies/:id"
+            path="/movie/:id"
             element={
               <ProtectedRoute>
                 <ProtectedLayout>
                   <MovieDetails />
+                </ProtectedLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/movies/:id/edit"
+            element={
+              <ProtectedRoute>
+                <ProtectedLayout>
+                  <MovieForm />
                 </ProtectedLayout>
               </ProtectedRoute>
             }

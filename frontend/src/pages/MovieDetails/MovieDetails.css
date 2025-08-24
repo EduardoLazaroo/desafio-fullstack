@@ -1,0 +1,42 @@
+.movie-details-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.movie-details-card {
+  display: flex;
+  max-width: 100% !important;
+  gap: 2rem;
+  align-items: flex-start;
+  padding: 2rem;
+}
+
+.movie-poster {
+  width: 250px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.movie-info {
+  flex: 1;
+}
+
+.movie-info h1 {
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  color: #222;
+}
+
+.movie-info p {
+  margin-bottom: 0.8rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+.loading {
+  text-align: center;
+  margin-top: 3rem;
+  font-size: 1.2rem;
+  color: #555;
+}
