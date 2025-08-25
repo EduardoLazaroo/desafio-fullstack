@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { addMovie, getMovieById, updateMovie } from "../../services/movieService";
+import Loading from "../../assets/Loading";
 import "./MovieForm.css";
 
 const MovieForm = () => {
@@ -9,6 +10,7 @@ const MovieForm = () => {
   const [genre, setGenre] = useState("");
   const [synopsis, setSynopsis] = useState("");
   const [posterUrl, setPosterUrl] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -17,6 +19,7 @@ const MovieForm = () => {
   useEffect(() => {
     if (isEditMode) {
       const fetchMovie = async () => {
+        setLoading(true);
         try {
           const data = await getMovieById(id);
           setTitle(data.title);
@@ -26,6 +29,9 @@ const MovieForm = () => {
           setPosterUrl(data.poster_url || "");
         } catch (error) {
           console.error("Erro ao carregar filme:", error);
+          alert("Erro ao carregar filme. Tente novamente.");
+        } finally {
+          setLoading(false);
         }
       };
       fetchMovie();
@@ -42,35 +48,42 @@ const MovieForm = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const validateForm = () => {
     if (!isValidUrl(posterUrl)) {
-      alert("Poster URL inválida!");
-      return;
+      alert("URL do poster inválida!");
+      return false;
     }
 
     if (!title.trim() || !genre.trim() || !synopsis.trim()) {
       alert("Título, gênero e sinopse são obrigatórios!");
-      return;
+      return false;
     }
 
     const year = Number(releaseYear);
     const currentYear = new Date().getFullYear();
     if (!Number.isInteger(year) || year < 1800 || year > currentYear) {
-      alert(`Ano de lançamento deve ser entre 1800 e ${currentYear}`);
-      return;
+      alert(`Ano de lançamento deve ser entre 1800 e ${currentYear}.`);
+      return false;
     }
+
+    return true;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) return;
 
     const movieData = {
       title: title.trim(),
-      release_year: year,
+      release_year: Number(releaseYear),
       genre: genre.trim(),
       synopsis: synopsis.trim(),
-      poster_url: posterUrl.trim() === "" ? null : posterUrl.trim(),
+      poster_url: posterUrl.trim() || null,
     };
 
     try {
+      setLoading(true);
       if (isEditMode) {
         await updateMovie(id, movieData);
         alert("Filme atualizado com sucesso!");
@@ -81,9 +94,13 @@ const MovieForm = () => {
       navigate("/movies");
     } catch (error) {
       console.error("Erro ao salvar filme:", error.response?.data || error.message);
-      alert("Erro ao salvar filme. Verifique os dados e tente novamente.");
+      alert("Erro ao salvar filme. Tente novamente.");
+    } finally {
+      setLoading(false);
     }
   };
+
+  if (loading) return <Loading />;
 
   return (
     <div className="movie-form-container">
@@ -143,8 +160,8 @@ const MovieForm = () => {
             />
           </div>
 
-          <button type="submit" className="btn-primary">
-            {isEditMode ? "Atualizar" : "Salvar"}
+          <button type="submit" className="btn-primary" disabled={loading}>
+            {loading ? "Carregando..." : isEditMode ? "Atualizar" : "Salvar"}
           </button>
         </form>
       </div>

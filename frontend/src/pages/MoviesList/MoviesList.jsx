@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getMovies, deleteMovie } from "../../services/movieService";
+import Loading from "../../assets/Loading";
 import "./MoviesList.css";
 
 const MoviesList = () => {
   const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [movieToDelete, setMovieToDelete] = useState(null);
 
-  const goCreateMovie = () => {
-    Navigate("/movies/new");
-  };
+  const navigate = useNavigate();
 
   const openModal = (movie) => {
     setMovieToDelete(movie);
@@ -36,23 +36,39 @@ const MoviesList = () => {
     }
   };
 
+  const handleCreateMovie = () => {
+    navigate("/movies/new");
+  };
+
   useEffect(() => {
     const fetchMovies = async () => {
+      setLoading(true);
       try {
         const data = await getMovies();
         setMovies(data);
       } catch (error) {
         console.error("Error fetching movies list:", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchMovies();
   }, []);
 
+  if (loading) return <Loading />;
+
+  const MoviePoster = ({ url, title }) =>
+    url ? (
+      <img src={url} alt={title} className="poster-thumb" />
+    ) : (
+      <span className="no-poster">-</span>
+    );
+
   return (
     <div className="movies-list-container">
       <div className="movies-list-header">
         <h1>Lista de Filmes</h1>
-        <button className="btn" onClick={goCreateMovie}>
+        <button className="btn" onClick={handleCreateMovie}>
           Cadastrar novo filme
         </button>
       </div>
@@ -81,15 +97,7 @@ const MoviesList = () => {
                   <td>{movie.genre}</td>
                   <td className="synopsis-col">{movie.synopsis}</td>
                   <td>
-                    {movie.poster_url ? (
-                      <img
-                        src={movie.poster_url}
-                        alt={movie.title}
-                        className="poster-thumb"
-                      />
-                    ) : (
-                      <span className="no-poster">-</span>
-                    )}
+                    <MoviePoster url={movie.poster_url} title={movie.title} />
                   </td>
                   <td className="actions-col">
                     <button className="btn btn-edit">

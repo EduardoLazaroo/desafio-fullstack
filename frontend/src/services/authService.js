@@ -32,10 +32,9 @@ export const registerUser = async (name, email, password, confirmPassword) => {
 };
 
 export const logoutUser = () => {
-  localStorage.removeItem("authToken"); // Remover o token ao fazer logout
+  localStorage.removeItem("authToken");
 };
 
-// Função para verificar se o usuário está autenticado
 export const isAuthenticated = () => {
   return localStorage.getItem("authToken") !== null;
 };

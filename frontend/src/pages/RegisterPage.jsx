@@ -8,6 +8,7 @@ const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -18,13 +19,10 @@ const RegisterPage = () => {
       return;
     }
 
+    setLoading(true);
+
     try {
-      const response = await registerUser(
-        name,
-        email,
-        password,
-        confirmPassword
-      );
+      const response = await registerUser(name, email, password, confirmPassword);
       localStorage.setItem("token", response.token);
       navigate("/home");
     } catch (error) {
@@ -35,6 +33,8 @@ const RegisterPage = () => {
       } else {
         alert("Erro ao registrar. Tente novamente.");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -91,8 +91,8 @@ const RegisterPage = () => {
             />
           </div>
 
-          <button type="submit" className="btn">
-            Criar Conta
+          <button type="submit" className="btn" disabled={loading}>
+            {loading ? "Carregando..." : "Criar Conta"}
           </button>
         </form>
 

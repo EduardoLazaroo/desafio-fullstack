@@ -4,7 +4,7 @@ const API_URL = "http://localhost:8000/api/movies";
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem("token");
-  console.log("JWT token:", token);
+  // console.log("JWT token:", token);
   return {
     headers: {
       Authorization: `Bearer ${token}`,
