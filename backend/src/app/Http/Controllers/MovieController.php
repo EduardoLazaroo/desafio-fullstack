@@ -37,6 +37,8 @@ class MovieController extends Controller
             'genre'        => 'required|string|max:255',
             'synopsis'     => 'required|string',
             'poster_url'   => 'nullable|url',
+            'watched'      => 'boolean',
+            'opinion'     => 'nullable|string',
         ]);
 
         $movie = $request->user()->movies()->create($request->only([
@@ -44,7 +46,9 @@ class MovieController extends Controller
             'release_year',
             'genre',
             'synopsis',
-            'poster_url'
+            'poster_url',
+            'watched',
+            'opinion',
         ]));
 
         return response()->json($movie, 201);
@@ -64,6 +68,8 @@ class MovieController extends Controller
             'genre'        => 'required|string|max:255',
             'synopsis'     => 'required|string',
             'poster_url'   => 'nullable|url',
+            'watched'      => 'boolean',
+            'opinion'     => 'nullable|string',
         ]);
 
         $movie->update($request->all());
@@ -82,5 +88,29 @@ class MovieController extends Controller
         $movie->delete();
 
         return response()->json(['message' => 'Movie deleted successfully']);
+    }
+
+    public function latestUnwatched(Request $request)
+    {
+        $movies = $request->user()
+            ->movies()
+            ->where('watched', false)
+            ->orderBy('updated_at', 'desc')
+            ->take(3)
+            ->get();
+
+        return response()->json($movies);
+    }
+
+    public function latestWatched(Request $request)
+    {
+        $movies = $request->user()
+            ->movies()
+            ->where('watched', true)
+            ->orderBy('updated_at', 'desc')
+            ->take(3)
+            ->get();
+
+        return response()->json($movies);
     }
 }

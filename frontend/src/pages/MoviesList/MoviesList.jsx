@@ -79,6 +79,7 @@ const MoviesList = () => {
               <th>Título</th>
               <th>Ano</th>
               <th>Gênero</th>
+              <th>Data</th>
               <th>Sinopse</th>
               <th>Poster</th>
               <th>Ações</th>
@@ -95,6 +96,7 @@ const MoviesList = () => {
                   </td>
                   <td>{movie.release_year}</td>
                   <td>{movie.genre}</td>
+                  <td>{new Date(movie.created_at).toLocaleDateString()}</td>
                   <td className="synopsis-col">{movie.synopsis}</td>
                   <td>
                     <MoviePoster url={movie.poster_url} title={movie.title} />
@@ -110,6 +112,9 @@ const MoviesList = () => {
                     >
                       Excluir
                     </button>
+                    <button className="btn btn-view">
+                      <Link to={`/movies/${movie.id}`}>Ver</Link>
+                    </button>
                   </td>
                 </tr>
               ))
@@ -124,16 +129,22 @@ const MoviesList = () => {
         </table>
       </div>
 
-      {showModal && (
+      {showModal && movieToDelete && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <h3>Tem certeza que deseja excluir este filme?</h3>
-            <button onClick={handleDelete} className="btn btn-confirm">
-              Confirmar
-            </button>
-            <button onClick={closeModal} className="btn btn-cancel">
-              Cancelar
-            </button>
+            <h3>Excluir Filme</h3>
+            <p>
+              Tem certeza que deseja excluir o filme{" "}
+              <strong>"{movieToDelete.title}"</strong>?
+            </p>
+            <div className="modal-actions">
+              <button onClick={handleDelete} className="btn btn-confirm">
+                Confirmar
+              </button>
+              <button onClick={closeModal} className="btn btn-delete">
+                Cancelar
+              </button>
+            </div>
           </div>
         </div>
       )}

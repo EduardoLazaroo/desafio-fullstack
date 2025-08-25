@@ -1,11 +1,11 @@
 # Projeto (README temporário)
 
-PHP 8.2.29 (cli)
-Laravel 12.25.0
-mysql 8.0.43
-react 19.1.1
-node 20.19.4
-npm 10.8.2
+- PHP 8.2.29 (cli)
+- Laravel 12.25.0
+- mysql 8.0.43
+- react 19.1.1
+- node 20.19.4
+- npm 10.8.2
 
 Aviso rápido
 - Este é um README simples e temporário com passos mínimos para subir a aplicação localmente.
@@ -36,12 +36,18 @@ docker compose exec backend bash
 composer install
 php artisan key:generate
 php artisan jwt:secret  # tymon/jwt-auth
-php artisan migrate --seed   # migrar e popular com seed (remova --seed se não quiser)
+
+# migrar e popular com a seed
+# email: jacto@jacto
+# password: jacto
+php artisan migrate --seed   # remova --seed se não quiser
 ```
 
 4. Frontend
 ```bash
-# instalar dependências e rodar em modo dev (tem que mudar a porta pois esta na 3000!!)
+# instalar dependências
+# tem que mudar a porta pois esta na 3000!!
+# recomendo rodar docker compose up -d --build 
 docker compose exec frontend sh -c "npm run dev"
 ```
 

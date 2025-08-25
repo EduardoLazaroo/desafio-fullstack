@@ -10,6 +10,8 @@ const MovieForm = () => {
   const [genre, setGenre] = useState("");
   const [synopsis, setSynopsis] = useState("");
   const [posterUrl, setPosterUrl] = useState("");
+  const [watched, setWatched] = useState(false);
+  const [opinion, setOpinion] = useState("");
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -27,6 +29,8 @@ const MovieForm = () => {
           setGenre(data.genre);
           setSynopsis(data.synopsis);
           setPosterUrl(data.poster_url || "");
+          setWatched(data.watched || false);
+          setOpinion(data.opinion || "");
         } catch (error) {
           console.error("Erro ao carregar filme:", error);
           alert("Erro ao carregar filme. Tente novamente.");
@@ -80,21 +84,20 @@ const MovieForm = () => {
       genre: genre.trim(),
       synopsis: synopsis.trim(),
       poster_url: posterUrl.trim() || null,
+      watched,
+      opinion: watched ? opinion.trim() : null,
     };
 
     try {
       setLoading(true);
       if (isEditMode) {
         await updateMovie(id, movieData);
-        alert("Filme atualizado com sucesso!");
       } else {
         await addMovie(movieData);
-        alert("Filme cadastrado com sucesso!");
       }
       navigate("/movies");
     } catch (error) {
       console.error("Erro ao salvar filme:", error.response?.data || error.message);
-      alert("Erro ao salvar filme. Tente novamente.");
     } finally {
       setLoading(false);
     }
@@ -159,6 +162,28 @@ const MovieForm = () => {
               onChange={(e) => setPosterUrl(e.target.value)}
             />
           </div>
+
+          <div className="form-group checkbox-group">
+            <label>
+              <input
+                type="checkbox"
+                checked={watched}
+                onChange={(e) => setWatched(e.target.checked)}
+              />
+              Já assisti
+            </label>
+          </div>
+
+          {watched && (
+            <div className="form-group">
+              <label htmlFor="opinion">Opinião (opcional)</label>
+              <textarea
+                id="opinion"
+                value={opinion}
+                onChange={(e) => setOpinion(e.target.value)}
+              />
+            </div>
+          )}
 
           <button type="submit" className="btn-primary" disabled={loading}>
             {loading ? "Carregando..." : isEditMode ? "Atualizar" : "Salvar"}

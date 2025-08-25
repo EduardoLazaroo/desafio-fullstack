@@ -62,3 +62,23 @@ export const updateMovie = async (id, movieData) => {
     throw error;
   }
 };
+
+export const getLatestUnwatchedMovies = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/latest-unwatched`, getAuthHeaders());
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching latest unwatched movies:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+export const getLatestWatchedMovies = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/latest-watched`, getAuthHeaders());
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching latest watched movies:", error.response?.data || error.message);
+    throw error;
+  }
+};

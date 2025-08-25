@@ -20,7 +20,6 @@ const LoginPage = () => {
       navigate("/home");
     } catch (error) {
       console.error(error);
-      alert("Erro ao fazer login. Verifique suas credenciais.");
     } finally {
       setLoading(false);
     }

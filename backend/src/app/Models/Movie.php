@@ -16,6 +16,8 @@ class Movie extends Model
         'synopsis',
         'poster_url',
         'user_id',
+        'watched',
+        'opinion',
     ];
 
     public function user()

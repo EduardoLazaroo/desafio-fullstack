@@ -15,6 +15,8 @@ return new class extends Migration
             $table->string('genre');
             $table->text('synopsis');
             $table->string('poster_url')->nullable();
+            $table->boolean('watched')->default(false); // false
+            $table->text('opinion')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

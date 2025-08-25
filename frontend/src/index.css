@@ -6,7 +6,6 @@
 
 :root {
   --primary-color: #2563eb;
-  --secondary-color: #4f46e5;
   --hover-color: #1e40af;
   --danger-color: #ef4444;
   --success-color: #10b981;
@@ -82,7 +81,7 @@ h2 {
 }
 
 .btn-edit {
-  background-color: var(--secondary-color);
+  background-color: var(--primary-color);
 }
 
 .btn-edit:hover {
@@ -100,32 +99,6 @@ h2 {
 
 .btn-delete:hover {
   background-color: darkred;
-}
-
-.btn-confirm,
-.btn-cancel {
-  padding: 0.8rem 1.4rem;
-  margin: 5px;
-  border: none;
-  cursor: pointer;
-  border-radius: 0.4rem;
-  transition: transform 0.2s ease;
-}
-
-.btn-confirm {
-  background-color: var(--success-color);
-}
-
-.btn-confirm:hover {
-  background-color: darkgreen;
-}
-
-.btn-cancel {
-  background-color: var(--neutral-dark);
-}
-
-.btn-cancel:hover {
-  background-color: #6b7280;
 }
 
 /* ==============================

@@ -40,7 +40,7 @@ function App() {
             }
           />
           <Route
-            path="/movie/:id"
+            path="/movies/:id"
             element={
               <ProtectedRoute>
                 <ProtectedLayout>
