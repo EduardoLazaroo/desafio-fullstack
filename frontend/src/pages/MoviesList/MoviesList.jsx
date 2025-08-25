@@ -1,16 +1,18 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getMovies, deleteMovie } from "../../services/movieService";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchMovies, removeMovie } from "../../redux/slices/moviesSlice";
 import Loading from "../../assets/Loading";
 import "./MoviesList.css";
 
 const MoviesList = () => {
-  const [movies, setMovies] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { list: movies, loading } = useSelector((state) => state.movies);
+
   const [showModal, setShowModal] = useState(false);
   const [movieToDelete, setMovieToDelete] = useState(null);
-
-  const navigate = useNavigate();
 
   const openModal = (movie) => {
     setMovieToDelete(movie);
@@ -26,10 +28,7 @@ const MoviesList = () => {
     if (!movieToDelete) return;
 
     try {
-      await deleteMovie(movieToDelete.id);
-      setMovies((prevMovies) =>
-        prevMovies.filter((movie) => movie.id !== movieToDelete.id)
-      );
+      await dispatch(removeMovie(movieToDelete.id)).unwrap();
       closeModal();
     } catch (error) {
       console.error("Erro ao excluir o filme:", error);
@@ -41,19 +40,8 @@ const MoviesList = () => {
   };
 
   useEffect(() => {
-    const fetchMovies = async () => {
-      setLoading(true);
-      try {
-        const data = await getMovies();
-        setMovies(data);
-      } catch (error) {
-        console.error("Error fetching movies list:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchMovies();
-  }, []);
+    dispatch(fetchMovies());
+  }, [dispatch]);
 
   if (loading) return <Loading />;
 
@@ -72,6 +60,7 @@ const MoviesList = () => {
           Cadastrar novo filme
         </button>
       </div>
+
       <div className="table-wrapper">
         <table className="movies-table">
           <thead>
@@ -112,6 +101,7 @@ const MoviesList = () => {
                     >
                       Excluir
                     </button>
+
                     <button className="btn btn-view">
                       <Link to={`/movies/${movie.id}`}>Ver</Link>
                     </button>
@@ -120,7 +110,7 @@ const MoviesList = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="6" className="no-data">
+                <td colSpan="7" className="no-data">
                   Nenhum filme encontrado
                 </td>
               </tr>
@@ -141,7 +131,7 @@ const MoviesList = () => {
               <button onClick={handleDelete} className="btn btn-confirm">
                 Confirmar
               </button>
-              <button onClick={closeModal} className="btn btn-delete">
+              <button onClick={closeModal} className="btn btn-cancel">
                 Cancelar
               </button>
             </div>

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { loginUser } from "../services/authService";
 import Loading from "../assets/Loading";
 import "../App.css";
+import superLogo from "../assets/super-logo.png";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -32,7 +33,9 @@ const LoginPage = () => {
   return (
     <div className="login-container">
       <div className="card">
-        <h2>Entre com seu login</h2>
+        <div className="div-img">
+          <img className="logo" src={superLogo} alt="Logo" />
+        </div>
 
         <form onSubmit={handleSubmit}>
           <div className="input-group">
@@ -66,7 +69,7 @@ const LoginPage = () => {
 
         <div className="register-link">
           <p>
-            Ainda não tem uma conta? <a onClick={goRegister}>Crie sua conta</a>
+            Novo por aqui <a onClick={goRegister}>Cadastre-se</a>
           </p>
         </div>
       </div>

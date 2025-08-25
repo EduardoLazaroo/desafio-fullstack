@@ -9,6 +9,7 @@ export const loginUser = async (email, password) => {
 
     if (token) {
       localStorage.setItem("authToken", token);
+      console.log("JWT token:", token);
     }
 
     return response.data;

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../services/authService";
+import Loading from "../assets/Loading";
 import "../App.css";
 
 const RegisterPage = () => {
@@ -22,7 +23,12 @@ const RegisterPage = () => {
     setLoading(true);
 
     try {
-      const response = await registerUser(name, email, password, confirmPassword);
+      const response = await registerUser(
+        name,
+        email,
+        password,
+        confirmPassword
+      );
       localStorage.setItem("token", response.token);
       navigate("/home");
     } catch (error) {
@@ -41,7 +47,11 @@ const RegisterPage = () => {
   return (
     <div className="login-container">
       <div className="card">
-        <h2>Crie sua conta</h2>
+        <div className="form-header">
+          <h4>Bem-vindo ao</h4>
+          <strong>meuFilme.io</strong>
+        </div>
+
         <form onSubmit={handleSubmit}>
           <div className="input-group">
             <label htmlFor="name">Nome</label>
@@ -102,6 +112,8 @@ const RegisterPage = () => {
           </p>
         </div>
       </div>
+
+      {loading && <Loading />}
     </div>
   );
 };

@@ -1,35 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  getLatestUnwatchedMovies,
-  getLatestWatchedMovies,
-} from "../../services/movieService";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchMovies } from "../../redux/slices/moviesSlice";
 import Loading from "../../assets/Loading";
 import "../HomePage/HomePage.css";
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const [latestUnwatched, setLatestUnwatched] = useState([]);
-  const [latestWatched, setLatestWatched] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+
+  const { list: movies, loading } = useSelector((state) => state.movies);
 
   useEffect(() => {
-    const fetchMovies = async () => {
-      setLoading(true); // começa o loading
-      try {
-        const unwatched = await getLatestUnwatchedMovies();
-        const watched = await getLatestWatchedMovies();
-        setLatestUnwatched(unwatched);
-        setLatestWatched(watched);
-      } catch (error) {
-        console.error("Erro ao carregar filmes da Home:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchMovies();
-  }, []);
+    dispatch(fetchMovies());
+  }, [dispatch]);
 
   const goCreateMovie = () => {
     navigate("/movies/new");
@@ -40,6 +24,9 @@ const HomePage = () => {
   };
 
   if (loading) return <Loading />;
+
+  const latestUnwatched = movies.filter((m) => !m.watched).slice(-5); // últimos 5 filmes pendentes
+  const latestWatched = movies.filter((m) => m.watched).slice(-5); // últimos 5 filmes assistidos
 
   return (
     <div className="home-container">
@@ -97,7 +84,7 @@ const HomePage = () => {
                   className="movie-img"
                 />
                 <h3>{movie.title}</h3>
-                <p>{movie.opinion.slice(0, 80)}...</p>
+                <p>{movie.opinion?.slice(0, 80)}...</p>
               </div>
             ))
           ) : (

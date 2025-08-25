@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { addMovie, getMovieById, updateMovie } from "../../services/movieService";
+import { useDispatch } from "react-redux";
+import {
+  addMovie,
+  getMovieById,
+  updateMovie,
+} from "../../services/movieService";
+import { fetchMovies } from "../../redux/slices/moviesSlice";
 import Loading from "../../assets/Loading";
 import "./MovieForm.css";
 
@@ -14,7 +20,10 @@ const MovieForm = () => {
   const [opinion, setOpinion] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const [errors, setErrors] = useState({});
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { id } = useParams();
   const isEditMode = Boolean(id);
 
@@ -42,45 +51,26 @@ const MovieForm = () => {
     }
   }, [id, isEditMode]);
 
-  const isValidUrl = (string) => {
-    if (!string) return true;
-    try {
-      new URL(string);
-      return true;
-    } catch {
-      return false;
-    }
-  };
-
   const validateForm = () => {
-    if (!isValidUrl(posterUrl)) {
-      alert("URL do poster inválida!");
-      return false;
-    }
+    const newErrors = {};
 
-    if (!title.trim() || !genre.trim() || !synopsis.trim()) {
-      alert("Título, gênero e sinopse são obrigatórios!");
-      return false;
-    }
+    if (!title.trim()) newErrors.title = "Preencha corretamente o título";
+    if (!releaseYear.trim()) newErrors.releaseYear = "Preencha corretamente o ano";
+    if (!genre.trim()) newErrors.genre = "Preencha corretamente o gênero";
+    if (!synopsis.trim()) newErrors.synopsis = "Preencha corretamente a sinopse";
 
-    const year = Number(releaseYear);
-    const currentYear = new Date().getFullYear();
-    if (!Number.isInteger(year) || year < 1800 || year > currentYear) {
-      alert(`Ano de lançamento deve ser entre 1800 e ${currentYear}.`);
-      return false;
-    }
+    setErrors(newErrors);
 
-    return true;
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!validateForm()) return;
 
     const movieData = {
       title: title.trim(),
-      release_year: Number(releaseYear),
+      release_year: releaseYear.trim(),
       genre: genre.trim(),
       synopsis: synopsis.trim(),
       poster_url: posterUrl.trim() || null,
@@ -95,6 +85,7 @@ const MovieForm = () => {
       } else {
         await addMovie(movieData);
       }
+      dispatch(fetchMovies());
       navigate("/movies");
     } catch (error) {
       console.error("Erro ao salvar filme:", error.response?.data || error.message);
@@ -108,7 +99,9 @@ const MovieForm = () => {
   return (
     <div className="movie-form-container">
       <div className="movie-form-card">
-        <h1 className="form-title">{isEditMode ? "Editar Filme" : "Adicionar Filme"}</h1>
+        <h1 className="form-title">
+          {isEditMode ? "Editar Filme" : "Adicionar Filme"}
+        </h1>
         <form onSubmit={handleSubmit} className="movie-form">
           <div className="form-group">
             <label htmlFor="title">Título</label>
@@ -117,19 +110,19 @@ const MovieForm = () => {
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              required
             />
+            {errors.title && <span className="error">{errors.title}</span>}
           </div>
 
           <div className="form-group">
             <label htmlFor="releaseYear">Ano de lançamento</label>
             <input
               id="releaseYear"
-              type="number"
+              type="text"
               value={releaseYear}
               onChange={(e) => setReleaseYear(e.target.value)}
-              required
             />
+            {errors.releaseYear && <span className="error">{errors.releaseYear}</span>}
           </div>
 
           <div className="form-group">
@@ -139,8 +132,8 @@ const MovieForm = () => {
               type="text"
               value={genre}
               onChange={(e) => setGenre(e.target.value)}
-              required
             />
+            {errors.genre && <span className="error">{errors.genre}</span>}
           </div>
 
           <div className="form-group">
@@ -149,15 +142,15 @@ const MovieForm = () => {
               id="synopsis"
               value={synopsis}
               onChange={(e) => setSynopsis(e.target.value)}
-              required
             />
+            {errors.synopsis && <span className="error">{errors.synopsis}</span>}
           </div>
 
           <div className="form-group">
             <label htmlFor="posterUrl">URL do poster (opcional)</label>
             <input
               id="posterUrl"
-              type="url"
+              type="text"
               value={posterUrl}
               onChange={(e) => setPosterUrl(e.target.value)}
             />

@@ -4,6 +4,7 @@ import "./navbar.css";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const userName = "Eduardo";
 
   const handleLogout = () => {
     logoutUser();
@@ -15,8 +16,20 @@ const Navbar = () => {
   return (
     <div>
       <nav className="navbar">
-        <div className="navbar-brand">MeuFilme.io</div>
-        <button className="btn-logout" onClick={handleLogout}>Sair</button>
+        <div className="right">
+          <div className="navbar-brand">meuFilme.io</div>
+          <div className="nav-links">
+            <a href="/home">Home</a>
+            <a href="/movies">Filmes</a>
+          </div>
+        </div>
+
+        <div className="left">
+          <span className="name-user">Bem vindo, {userName}</span>
+          <button className="btn-logout" onClick={handleLogout}>
+            Sair
+          </button>
+        </div>
       </nav>
     </div>
   );

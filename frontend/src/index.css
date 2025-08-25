@@ -5,8 +5,12 @@
 }
 
 :root {
-  --primary-color: #2563eb;
-  --hover-color: #1e40af;
+  --primary-color: #0980e6;
+  --primary-hover-color: #0066c0;
+
+  --seccond-color: #27445d;
+  --seccond-hover-color: #183853;
+
   --danger-color: #ef4444;
   --success-color: #10b981;
   --neutral-light: #f1f5ff;
@@ -30,8 +34,14 @@ h2 {
   font-weight: 600;
 }
 
+.error {
+  color: red;
+  font-size: 0.85rem;
+  margin-top: 0.3rem;
+}
+
 .btn {
-  background-color: var(--primary-color);
+  background-color: var(--seccond-color);
   color: #fff;
   padding: 0.6rem 1.2rem;
   border: none;
@@ -42,12 +52,12 @@ h2 {
 }
 
 .btn:hover {
-  background-color: var(--hover-color);
+  background-color: var(--seccond-hover-color);
   transform: scale(1.05);
 }
 
 .btn-primary {
-  background: var(--primary-color);
+  background: var(--seccond-color);
   color: #fff;
   font-size: 1rem;
   padding: 0.9rem;
@@ -59,7 +69,7 @@ h2 {
 }
 
 .btn-primary:hover {
-  background: var(--hover-color);
+  background: var(--seccond-hover-colorr);
 }
 
 .btn-primary:active {
@@ -85,7 +95,7 @@ h2 {
 }
 
 .btn-edit:hover {
-  background-color: var(--hover-color);
+  background-color: var(--seccond-hover-color);
 }
 
 .btn-edit a {
@@ -209,4 +219,3 @@ h2 {
   font-size: 1.2rem;
   color: var(--text-light);
 }
-

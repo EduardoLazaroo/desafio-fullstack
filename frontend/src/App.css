@@ -1,3 +1,8 @@
+a {
+  text-decoration: auto;
+  cursor: pointer;
+}
+
 .login-container {
   display: flex;
   justify-content: center;
@@ -5,7 +10,38 @@
   height: 100vh;
 }
 
-.login-container form{
+.div-img {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.logo {
+  width: 300px;
+  height: auto;
+}
+
+.form-header {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+
+.form-header h4{
+  color: black;
+}
+
+.form-header strong {
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+.login-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-link {
+  margin-top: 12px;
 }
