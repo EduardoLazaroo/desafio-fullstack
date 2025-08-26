@@ -1,84 +1,62 @@
 import axios from "axios";
+import { logoutUser } from "./authService"; // sua função existente
 
 const API_URL = "http://localhost:8000/api/movies";
 
-const getAuthHeaders = () => {
-  const token = localStorage.getItem("token");
-  // console.log("JWT token:", token);
-  return {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-};
+const axiosInstance = axios.create({
+  baseURL: API_URL,
+});
+
+axiosInstance.interceptors.request.use((config) => {
+  const token = localStorage.getItem("authToken");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      logoutUser();
+      window.location.href = "/login";
+    }
+    return Promise.reject(error);
+  }
+);
 
 export const getMovies = async () => {
-  try {
-    const response = await axios.get(API_URL, getAuthHeaders());
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching movies:", error.response?.data || error.message);
-    throw error;
-  }
+  const response = await axiosInstance.get("/");
+  return response.data;
 };
 
 export const getMovieById = async (id) => {
-  try {
-    const response = await axios.get(`${API_URL}/${id}`, getAuthHeaders());
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching movie:", error.response?.data || error.message);
-    throw error;
-  }
+  const response = await axiosInstance.get(`/${id}`);
+  return response.data;
 };
 
 export const deleteMovie = async (id) => {
-  try {
-    const response = await axios.delete(`${API_URL}/${id}`, getAuthHeaders());
-    return response.data;
-  } catch (error) {
-    console.error("Error deleting movie:", error.response?.data || error.message);
-    throw error;
-  }
+  const response = await axiosInstance.delete(`/${id}`);
+  return response.data;
 };
 
-
 export const addMovie = async (movieData) => {
-  try {
-    const response = await axios.post(API_URL, movieData, getAuthHeaders());
-    return response.data;
-  } catch (error) {
-    console.error("Error adding movie:", error.response?.data || error.message);
-    throw error;
-  }
+  const response = await axiosInstance.post("/", movieData);
+  return response.data;
 };
 
 export const updateMovie = async (id, movieData) => {
-  try {
-    const response = await axios.put(`${API_URL}/${id}`, movieData, getAuthHeaders());
-    return response.data;
-  } catch (error) {
-    console.error("Error updating movie:", error.response?.data || error.message);
-    throw error;
-  }
+  const response = await axiosInstance.put(`/${id}`, movieData);
+  return response.data;
 };
 
 export const getLatestUnwatchedMovies = async () => {
-  try {
-    const response = await axios.get(`${API_URL}/latest-unwatched`, getAuthHeaders());
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching latest unwatched movies:", error.response?.data || error.message);
-    throw error;
-  }
+  const response = await axiosInstance.get("/latest-unwatched");
+  return response.data;
 };
 
 export const getLatestWatchedMovies = async () => {
-  try {
-    const response = await axios.get(`${API_URL}/latest-watched`, getAuthHeaders());
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching latest watched movies:", error.response?.data || error.message);
-    throw error;
-  }
+  const response = await axiosInstance.get("/latest-watched");
+  return response.data;
 };

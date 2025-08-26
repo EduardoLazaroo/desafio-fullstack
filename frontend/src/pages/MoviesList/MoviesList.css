@@ -72,3 +72,15 @@
   color: var(--text-light);
 }
 
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 20px;
+  align-items: center;
+}
+
+.btn-view a {
+  text-decoration: none;
+  color: #fff;
+}

@@ -4,7 +4,6 @@ import "./navbar.css";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const userName = "Eduardo";
 
   const handleLogout = () => {
     logoutUser();
@@ -25,7 +24,6 @@ const Navbar = () => {
         </div>
 
         <div className="left">
-          <span className="name-user">Bem vindo, {userName}</span>
           <button className="btn-logout" onClick={handleLogout}>
             Sair
           </button>

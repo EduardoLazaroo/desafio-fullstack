@@ -1,10 +1,16 @@
-import "./Loading.css";
+import "../assets/Loading.css"; // você já tem este import
 
-const Loading = () => (
-  <div className="loading-overlay">
-    <div className="loading-spinner"></div>
-    <span>Carregando...</span>
-  </div>
-);
+const Loading = () => {
+  return (
+    <div className="loading-overlay">
+      <div className="loading-dots">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <span>Carregando...</span>
+    </div>
+  );
+};
 
 export default Loading;

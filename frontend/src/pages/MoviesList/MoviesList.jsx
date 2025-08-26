@@ -79,7 +79,7 @@ const MoviesList = () => {
               movies.map((movie) => (
                 <tr key={movie.id}>
                   <td>
-                    <Link to={`/movie/${movie.id}`} className="btn-link">
+                    <Link to={`/movies/${movie.id}`} className="btn-link">
                       {movie.title}
                     </Link>
                   </td>

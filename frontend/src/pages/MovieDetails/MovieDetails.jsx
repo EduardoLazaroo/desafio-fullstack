@@ -18,19 +18,16 @@ const MovieDetails = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Primeiro tenta pegar o filme do estado global
     const movieFromState = movies.find((m) => m.id === Number(id));
     if (movieFromState) {
       setMovie(movieFromState);
       setLoading(false);
     } else {
-      // Se não estiver, busca do serviço
       const fetchMovie = async () => {
         setLoading(true);
         try {
           const data = await getMovieById(id);
           setMovie(data);
-          // Atualiza o estado global para consistência
           dispatch(fetchMovies());
         } catch (err) {
           console.error("Erro ao buscar detalhes do filme:", err);
@@ -52,6 +49,8 @@ const MovieDetails = () => {
   const { poster_url, title, release_year, genre, synopsis, opinion, watched } =
     movie;
 
+  const hasWatched = watched === 1 || watched === true;
+
   return (
     <div className="movie-details-container">
       <div className="card movie-details-card">
@@ -63,17 +62,20 @@ const MovieDetails = () => {
         <div className="movie-info">
           <h1>{title}</h1>
           <p>
-            <strong>Ano:</strong> {release_year}
+            <strong>Ano:</strong> {release_year || "Sem informação"}
           </p>
           <p>
-            <strong>Gênero:</strong> {genre}
+            <strong>Gênero:</strong> {genre || "Sem informação"}
           </p>
-          <p>{synopsis}</p>
-          {watched && opinion && (
-            <p>
-              <strong>Opinião:</strong> {opinion}
-            </p>
-          )}
+          <p>
+            <strong>Sinopse:</strong> {synopsis || "Sem sinopse disponível"}
+          </p>
+          <p>
+            <strong>Opinião:</strong>{" "}
+            {hasWatched
+              ? opinion || "Sem opinião registrada"
+              : "Não assistido ainda"}
+          </p>
         </div>
       </div>
     </div>

@@ -46,16 +46,72 @@
   transition: border 0.2s ease, box-shadow 0.2s ease;
 }
 
-.form-group textarea {
-  resize: vertical;
-  min-height: 100px;
-}
-
 .form-group input:focus,
 .form-group textarea:focus {
   border-color: #2563eb;
   box-shadow: 0 0 0 3px rgba(37,99,235,0.2);
 }
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.custom-checkbox {
+  position: relative;
+  padding-left: 28px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  user-select: none;
+  display: inline-block;
+  color: #333;
+}
+
+.custom-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 18px;
+  width: 18px;
+  background-color: #fff;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.custom-checkbox input:checked ~ .checkmark {
+  background-color: #2563eb;
+  border-color: #2563eb;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.custom-checkbox input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.custom-checkbox .checkmark:after {
+  left: 5px;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
 
 @media (max-width: 600px) {
   .movie-form-card {

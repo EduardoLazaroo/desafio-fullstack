@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMovies } from "../../redux/slices/moviesSlice";
 import Loading from "../../assets/Loading";
@@ -19,36 +19,32 @@ const HomePage = () => {
     navigate("/movies/new");
   };
 
-  const goList = () => {
-    navigate("/movies");
-  };
-
   if (loading) return <Loading />;
 
-  const latestUnwatched = movies.filter((m) => !m.watched).slice(-5); // últimos 5 filmes pendentes
-  const latestWatched = movies.filter((m) => m.watched).slice(-5); // últimos 5 filmes assistidos
+  const latestUnwatched = movies.filter((m) => !m.watched).slice(-3);
+  const latestWatched = movies.filter((m) => m.watched).slice(-3);
 
   return (
     <div className="home-container">
       <section className="intro-section">
-        <h1>Bem-vindo ao MeuFilme.io 🎬</h1>
+        <div className="intro-header">
+          <h4>Bem-vindo ao</h4>
+          <strong>meuFilme.io</strong>
+        </div>
         <p>
-          Aqui você pode organizar sua experiência com filmes: cadastre títulos
-          que já assistiu ou que deseja assistir, mantenha seu histórico sempre
-          atualizado e nunca mais esqueça o que já viu ou o que está na sua
-          lista de desejos.
+          Organize sua lista de filmes de forma simples: adicione o que deseja
+          assistir, marque os que já concluiu e registre suas impressões
+          pessoais. Seu espaço individual para guardar tudo sobre sua
+          experiência com o cinema.
         </p>
       </section>
 
       <section className="movies-section">
         <div className="section-header">
-          <h2>Filmes para assistir</h2>
+          <h3>Filmes para assistir</h3>
           <div className="actions">
             <button className="btn btn-primary" onClick={goCreateMovie}>
               Cadastrar novo filme
-            </button>
-            <button className="btn btn-primary" onClick={goList}>
-              Lista de filmes
             </button>
           </div>
         </div>
@@ -56,15 +52,23 @@ const HomePage = () => {
         <div className="card-grid">
           {latestUnwatched.length > 0 ? (
             latestUnwatched.map((movie) => (
-              <div className="card movie-card" key={movie.id}>
-                <img
-                  src={movie.poster_url || "https://via.placeholder.com/150"}
-                  alt={`Capa de ${movie.title}`}
-                  className="movie-img"
-                />
-                <h3>{movie.title}</h3>
-                <p>{movie.synopsis.slice(0, 80)}...</p>
-              </div>
+              <Link to={`/movies/${movie.id}`} key={movie.id} className="movie-link">
+                <div className="card movie-card">
+                  <div className="header-card">
+                    <div className="right-card">
+                      <h3>{movie.title}</h3>
+                      <p>{movie.genre}</p>
+                    </div>
+                  </div>
+                  <img
+                    src={movie.poster_url || "https://via.placeholder.com/150"}
+                    alt={`Capa de ${movie.title}`}
+                    className="movie-img"
+                  />
+                  <p className="strong">Sinopse:</p>
+                  <p>{movie.synopsis.slice(0, 80)}...</p>
+                </div>
+              </Link>
             ))
           ) : (
             <p>Nenhum filme pendente para assistir.</p>
@@ -73,19 +77,37 @@ const HomePage = () => {
       </section>
 
       <section className="movies-section">
-        <h2>Histórico assistido</h2>
+        <div className="section-header">
+          <h3>Histórico assistido</h3>
+        </div>
+
         <div className="card-grid">
           {latestWatched.length > 0 ? (
             latestWatched.map((movie) => (
-              <div className="card movie-card" key={movie.id}>
-                <img
-                  src={movie.poster_url || "https://via.placeholder.com/150"}
-                  alt={`Capa de ${movie.title}`}
-                  className="movie-img"
-                />
-                <h3>{movie.title}</h3>
-                <p>{movie.opinion?.slice(0, 80)}...</p>
-              </div>
+              <Link to={`/movies/${movie.id}`} key={movie.id} className="movie-link">
+                <div className="card movie-card">
+                  <div className="header-card">
+                    <div className="right-card">
+                      <h3>{movie.title}</h3>
+                      <p>{movie.genre}</p>
+                    </div>
+                    <div className="badge-green">
+                      <p>Visto!</p>
+                    </div>
+                  </div>
+                  <img
+                    src={movie.poster_url || "https://via.placeholder.com/150"}
+                    alt={`Capa de ${movie.title}`}
+                    className="movie-img"
+                  />
+                  {movie.opinion && (
+                    <>
+                      <p className="strong">Sua opinião:</p>
+                      <p>{movie.opinion.slice(0, 80)}...</p>
+                    </>
+                  )}
+                </div>
+              </Link>
             ))
           ) : (
             <p>Você ainda não marcou nenhum filme como assistido.</p>

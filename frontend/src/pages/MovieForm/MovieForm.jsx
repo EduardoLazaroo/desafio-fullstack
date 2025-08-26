@@ -19,7 +19,6 @@ const MovieForm = () => {
   const [watched, setWatched] = useState(false);
   const [opinion, setOpinion] = useState("");
   const [loading, setLoading] = useState(false);
-
   const [errors, setErrors] = useState({});
 
   const navigate = useNavigate();
@@ -53,14 +52,11 @@ const MovieForm = () => {
 
   const validateForm = () => {
     const newErrors = {};
-
     if (!title.trim()) newErrors.title = "Preencha corretamente o título";
-    if (!releaseYear.trim()) newErrors.releaseYear = "Preencha corretamente o ano";
+    if (!releaseYear.trim()) newErrors.releaseYear = "Preencha corretamente a data";
     if (!genre.trim()) newErrors.genre = "Preencha corretamente o gênero";
     if (!synopsis.trim()) newErrors.synopsis = "Preencha corretamente a sinopse";
-
     setErrors(newErrors);
-
     return Object.keys(newErrors).length === 0;
   };
 
@@ -70,7 +66,7 @@ const MovieForm = () => {
 
     const movieData = {
       title: title.trim(),
-      release_year: releaseYear.trim(),
+      release_year: releaseYear,
       genre: genre.trim(),
       synopsis: synopsis.trim(),
       poster_url: posterUrl.trim() || null,
@@ -108,6 +104,7 @@ const MovieForm = () => {
             <input
               id="title"
               type="text"
+              placeholder="Digite o título do filme"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
@@ -115,10 +112,10 @@ const MovieForm = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="releaseYear">Ano de lançamento</label>
+            <label htmlFor="releaseYear">Data de Lançamento</label>
             <input
               id="releaseYear"
-              type="text"
+              type="date"
               value={releaseYear}
               onChange={(e) => setReleaseYear(e.target.value)}
             />
@@ -130,6 +127,7 @@ const MovieForm = () => {
             <input
               id="genre"
               type="text"
+              placeholder="Ex: Ação, Comédia, Drama"
               value={genre}
               onChange={(e) => setGenre(e.target.value)}
             />
@@ -140,6 +138,7 @@ const MovieForm = () => {
             <label htmlFor="synopsis">Sinopse</label>
             <textarea
               id="synopsis"
+              placeholder="Escreva a sinopse do filme"
               value={synopsis}
               onChange={(e) => setSynopsis(e.target.value)}
             />
@@ -147,22 +146,24 @@ const MovieForm = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="posterUrl">URL do poster (opcional)</label>
+            <label htmlFor="posterUrl">URL do Poster (opcional)</label>
             <input
               id="posterUrl"
               type="text"
+              placeholder="https://exemplo.com/poster.jpg"
               value={posterUrl}
               onChange={(e) => setPosterUrl(e.target.value)}
             />
           </div>
 
           <div className="form-group checkbox-group">
-            <label>
+            <label className="custom-checkbox">
               <input
                 type="checkbox"
                 checked={watched}
                 onChange={(e) => setWatched(e.target.checked)}
               />
+              <span className="checkmark"></span>
               Já assisti
             </label>
           </div>
@@ -172,6 +173,7 @@ const MovieForm = () => {
               <label htmlFor="opinion">Opinião (opcional)</label>
               <textarea
                 id="opinion"
+                placeholder="Compartilhe sua opinião sobre o filme"
                 value={opinion}
                 onChange={(e) => setOpinion(e.target.value)}
               />
