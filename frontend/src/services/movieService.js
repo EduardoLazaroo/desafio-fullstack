@@ -1,5 +1,5 @@
 import axios from "axios";
-import { logoutUser } from "./authService"; // sua função existente
+import { logoutUser } from "./authService";
 
 const API_URL = "http://localhost:8000/api/movies";
 

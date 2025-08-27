@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -15,26 +16,32 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
+        $start = microtime(true);
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6|confirmed',
         ]);
+        Log::info('Validação levou: ' . (microtime(true) - $start) . 's');
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 400);
         }
 
-        // Criação do usuário
+        $beforeUser = microtime(true);
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+        Log::info('Criação do usuário levou: ' . (microtime(true) - $beforeUser) . 's');
 
-        // token JWT
+        $beforeToken = microtime(true);
         $token = JWTAuth::fromUser($user);
+        Log::info('Geração do token levou: ' . (microtime(true) - $beforeToken) . 's');
+
+        Log::info('Tempo total: ' . (microtime(true) - $start) . 's');
 
         return response()->json(compact('token'), 201);
     }

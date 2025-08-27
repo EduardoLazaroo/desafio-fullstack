@@ -96,7 +96,7 @@ const MoviesList = () => {
                     </button>
 
                     <button
-                      className="btn btn-delete"
+                      className="btn btn-cancel"
                       onClick={() => openModal(movie)}
                     >
                       Excluir
