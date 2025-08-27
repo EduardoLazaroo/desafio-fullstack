@@ -46,6 +46,24 @@
   line-height: 1.6;
 }
 
+.movie-field {
+  margin-bottom: 1.2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.movie-field strong {
+  font-weight: bold;
+  font-size: 1rem;
+  color: #222;
+  margin-bottom: 0.3rem;
+}
+
+.movie-field span {
+  font-size: 0.95rem;
+  color: #555;
+}
+
 /* Responsividade */
 @media (max-width: 768px) {
   .movie-details-card {

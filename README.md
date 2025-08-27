@@ -12,8 +12,14 @@
 ---
 
 ## Aviso rápido
-> Este é um README, com passos mínimos para subir a aplicação localmente e realizar testes.  
+> Passos mínimos para subir a aplicação localmente e realizar testes.  
 > Presumo que você esteja usando Docker / Docker Compose para backend, banco e frontend.
+
+---
+
+## Links úteis
+- 📘 <a href="https://documenter.getpostman.com/view/21411952/2sB3HgP2p9" target="_blank">Postman Documentation</a>  
+- 🎨 <a href="https://www.figma.com/design/gNLFJ0YAoBCgkI2O9fL9yP/meuFilme.io?node-id=0-1&p=f" target="_blank">Figma Prototype</a>  
 
 ---
 

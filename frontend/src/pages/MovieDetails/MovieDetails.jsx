@@ -61,21 +61,30 @@ const MovieDetails = () => {
         />
         <div className="movie-info">
           <h1>{title}</h1>
-          <p>
-            <strong>Ano:</strong> {release_year || "Sem informação"}
-          </p>
-          <p>
-            <strong>Gênero:</strong> {genre || "Sem informação"}
-          </p>
-          <p>
-            <strong>Sinopse:</strong> {synopsis || "Sem sinopse disponível"}
-          </p>
-          <p>
-            <strong>Opinião:</strong>{" "}
-            {hasWatched
-              ? opinion || "Sem opinião registrada"
-              : "Não assistido ainda"}
-          </p>
+
+          <div className="movie-field">
+            <strong>Ano</strong>
+            <span>{release_year || "Sem informação"}</span>
+          </div>
+
+          <div className="movie-field">
+            <strong>Gênero</strong>
+            <span>{genre || "Sem informação"}</span>
+          </div>
+
+          <div className="movie-field">
+            <strong>Sinopse</strong>
+            <span>{synopsis || "Sem sinopse disponível"}</span>
+          </div>
+
+          <div className="movie-field">
+            <strong>Opinião</strong>
+            <span>
+              {hasWatched
+                ? opinion || "Sem opinião registrada"
+                : "Não assistido ainda"}
+            </span>
+          </div>
         </div>
       </div>
     </div>
