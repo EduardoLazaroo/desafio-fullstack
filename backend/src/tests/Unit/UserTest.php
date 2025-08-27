@@ -31,7 +31,7 @@ class UserTest extends TestCase
         $user = User::factory()->create();
         $movie = $user->movies()->create([
             'title' => 'Matrix',
-            'release_year' => 1999,
+            'release_year' => '1999-03-31',
             'genre' => 'Sci-Fi',
             'synopsis' => 'Um hacker descobre a realidade.',
             'poster_url' => ''

@@ -21,8 +21,8 @@ const HomePage = () => {
 
   if (loading) return <Loading />;
 
-  const latestUnwatched = movies.filter((m) => !m.watched).slice(-3);
-  const latestWatched = movies.filter((m) => m.watched).slice(-3);
+  const latestUnwatched = movies.filter((m) => !m.watched);
+  const latestWatched = movies.filter((m) => m.watched);
 
   return (
     <div className="home-container">
@@ -52,7 +52,11 @@ const HomePage = () => {
         <div className="card-grid">
           {latestUnwatched.length > 0 ? (
             latestUnwatched.map((movie) => (
-              <Link to={`/movies/${movie.id}`} key={movie.id} className="movie-link">
+              <Link
+                to={`/movies/${movie.id}`}
+                key={movie.id}
+                className="movie-link"
+              >
                 <div className="card movie-card">
                   <div className="header-card">
                     <div className="right-card">
@@ -84,7 +88,11 @@ const HomePage = () => {
         <div className="card-grid">
           {latestWatched.length > 0 ? (
             latestWatched.map((movie) => (
-              <Link to={`/movies/${movie.id}`} key={movie.id} className="movie-link">
+              <Link
+                to={`/movies/${movie.id}`}
+                key={movie.id}
+                className="movie-link"
+              >
                 <div className="card movie-card">
                   <div className="header-card">
                     <div className="right-card">

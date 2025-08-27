@@ -16,7 +16,7 @@ describe("MoviesList", () => {
     {
       id: 1,
       title: "Matrix",
-      release_year: 1999,
+      release_year: "1999-03-31",
       genre: "Sci-Fi",
       synopsis: "Um hacker descobre a realidade.",
       poster_url: "",
@@ -25,7 +25,7 @@ describe("MoviesList", () => {
     {
       id: 2,
       title: "Inception",
-      release_year: 2010,
+      release_year: "2010-07-16",
       genre: "Sci-Fi",
       synopsis: "Sonhos dentro de sonhos",
       poster_url: "",

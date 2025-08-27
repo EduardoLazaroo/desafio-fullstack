@@ -29,7 +29,7 @@ class MovieTest extends TestCase
     {
         $response = $this->postJson('/api/movies', [
             'title' => 'Matrix',
-            'release_year' => 1999,
+            'release_year' => '1999-03-31',
             'genre' => 'Sci-Fi',
             'synopsis' => 'Um hacker descobre a realidade.',
             'poster_url' => ''

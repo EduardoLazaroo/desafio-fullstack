@@ -53,7 +53,7 @@ docker compose ps
 ## 2. Backend
 ```bash
 # Abrir um shell no container do backend
-docker compose exec backend bash
+docker exec -it laravel_app sh
 
 # Dentro do container (ou rodar diretamente com docker compose exec):
 composer install

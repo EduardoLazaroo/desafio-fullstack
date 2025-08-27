@@ -14,7 +14,7 @@ class MovieFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence(3),
-            'release_year' => $this->faker->year(),
+            'release_year' => $this->faker->date(),
             'genre' => $this->faker->word(),
             'synopsis' => $this->faker->paragraph(),
             'poster_url' => $this->faker->imageUrl(),

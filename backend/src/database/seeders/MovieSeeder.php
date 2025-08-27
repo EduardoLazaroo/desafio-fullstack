@@ -17,7 +17,7 @@ class MovieSeeder extends Seeder
 
         Movie::create([
             'title' => 'The Matrix',
-            'release_year' => 1999,
+            'release_year' => '1999-03-31',
             'genre' => 'Sci-Fi',
             'synopsis' => 'Um hacker descobre a verdadeira realidade.',
             'poster_url' => 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcT02y0TxoVfAyvq_0JUN4VrOPU7FvWto51rF8BgDpR1lWtT5cxtvD8fjzQUxaBGBE6s3kMeV1L1hKqfvRVkKiOJwvRH6Bnv4zZ8xKbvgq3g',
@@ -28,7 +28,7 @@ class MovieSeeder extends Seeder
 
         Movie::create([
             'title' => 'Interstellar',
-            'release_year' => 2014,
+            'release_year' => '2014-11-07',
             'genre' => 'Sci-Fi',
             'synopsis' => 'Exploração espacial para salvar a humanidade.',
             'poster_url' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLU74U4F6YVtruTkYMnEfFScMLRUoANlTM2x2k10odeS59k9htbr-U7uaq4msxZj92zVSyUEeYsBYMXdb4LAtf4R0aAlTYN0u599nzCBG-Eg',
@@ -39,7 +39,7 @@ class MovieSeeder extends Seeder
 
         Movie::create([
             'title' => 'Inception',
-            'release_year' => 2010,
+            'release_year' => '2010-07-16',
             'genre' => 'Sci-Fi',
             'synopsis' => 'Sonhos dentro de sonhos.',
             'poster_url' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZx0x-MvHcyUuwQVf85IHviN6zHumqfmo5UHiCxujzg5ZZZuimSEMM-VuAq0AfR7Zj0lPKazIgDxNG23FQV7ddtwnRgGmWmoNT04H8Jr2I',
@@ -50,7 +50,7 @@ class MovieSeeder extends Seeder
 
         Movie::create([
             'title' => 'Dune Part 2',
-            'release_year' => 2024,
+            'release_year' => '2024-11-15',
             'genre' => 'Sci-Fi',
             'synopsis' => 'Continuação da saga épica de Duna.',
             'poster_url' => 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQhWN_NDGLkF5w0Ui9o6_huMigkdI5J1cXsNiZh2czMckJIY0TbXypvPeTHy4LPtuPnWcbVj_jTqOaiwTY-kAo-veqQqN79SApsmf_3jDqh',
@@ -61,7 +61,7 @@ class MovieSeeder extends Seeder
 
         Movie::create([
             'title' => 'Avatar 2',
-            'release_year' => 2022,
+            'release_year' => '2022-12-16',
             'genre' => 'Fantasy',
             'synopsis' => 'A volta a Pandora.',
             'poster_url' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbR8bQ08BHUL9e6LXhYzry1wd2kN8JaZFL6Hzul1Vk8csw-zrM5jlUR0zMfqkYIsOE9VGsHEGW_L6ODhyP5tpBYMEI4K2gyisaGpRe8g8S',
@@ -72,7 +72,7 @@ class MovieSeeder extends Seeder
 
         Movie::create([
             'title' => 'Oppenheimer',
-            'release_year' => 2023,
+            'release_year' => '2023-07-21',
             'genre' => 'Drama',
             'synopsis' => 'História do criador da bomba atômica.',
             'poster_url' => 'https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTZDQHP8lzQOf-iO4KhZZhVSq8uXQSrT5ApmUn7SsfTzDAzTnGqZ-Hs9wQb7abddgltv4QwioSorqVavoZMqdDoutLOgx9slcpSF75KdZAfZg',

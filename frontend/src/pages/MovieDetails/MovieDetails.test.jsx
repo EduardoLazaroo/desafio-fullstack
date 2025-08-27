@@ -43,7 +43,7 @@ describe("MovieDetails", () => {
     expect(title).toBeInTheDocument();
 
     const year = screen.getByText("Ano:", { selector: "strong" }).parentElement;
-    expect(year).toHaveTextContent("Ano: 2020");
+    expect(year).toHaveTextContent("Ano: 2023-01-01");
 
     const genre = screen.getByText("Gênero:", {
       selector: "strong",

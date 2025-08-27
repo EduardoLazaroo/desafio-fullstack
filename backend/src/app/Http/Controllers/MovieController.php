@@ -33,7 +33,7 @@ class MovieController extends Controller
     {
         $request->validate([
             'title'        => 'required|string|max:255',
-            'release_year' => 'required|integer',
+            'release_year' => 'required|date',
             'genre'        => 'required|string|max:255',
             'synopsis'     => 'required|string',
             'poster_url'   => 'nullable|url',
@@ -64,7 +64,7 @@ class MovieController extends Controller
 
         $request->validate([
             'title'        => 'required|string|max:255',
-            'release_year' => 'required|integer',
+            'release_year' => 'required|date',
             'genre'        => 'required|string|max:255',
             'synopsis'     => 'required|string',
             'poster_url'   => 'nullable|url',
@@ -96,7 +96,6 @@ class MovieController extends Controller
             ->movies()
             ->where('watched', false)
             ->orderBy('updated_at', 'desc')
-            ->take(3)
             ->get();
 
         return response()->json($movies);
@@ -108,7 +107,6 @@ class MovieController extends Controller
             ->movies()
             ->where('watched', true)
             ->orderBy('updated_at', 'desc')
-            ->take(3)
             ->get();
 
         return response()->json($movies);
