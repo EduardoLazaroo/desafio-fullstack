@@ -53,7 +53,6 @@ describe("RegisterPage", () => {
       target: { value: "321" },
     });
 
-    // dispara o submit no formulário em vez de só clicar no botão
     fireEvent.submit(
       screen.getByRole("button", { name: /Criar Conta/i }).closest("form")
     );
@@ -77,26 +76,26 @@ describe("RegisterPage", () => {
     );
 
     fireEvent.change(screen.getByLabelText(/Nome/i), {
-      target: { value: "Eduardo" },
+      target: { value: "Jacto" },
     });
     fireEvent.change(screen.getByLabelText(/^E-mail$/i), {
-      target: { value: "edu@teste.com" },
+      target: { value: "jacto@jacto.com" },
     });
     fireEvent.change(screen.getByLabelText(/^Senha$/i), {
-      target: { value: "123456" },
+      target: { value: "jactoo" },
     });
     fireEvent.change(screen.getByLabelText(/Confirmar Senha/i), {
-      target: { value: "123456" },
+      target: { value: "jactoo" },
     });
 
     fireEvent.click(screen.getByRole("button", { name: /Criar Conta/i }));
 
     await waitFor(() => {
       expect(authService.registerUser).toHaveBeenCalledWith(
-        "Eduardo",
-        "edu@teste.com",
-        "123456",
-        "123456"
+        "Jacto",
+        "jacto@jacto.com",
+        "jactoo",
+        "jactoo"
       );
       expect(localStorage.getItem("token")).toBe("abc123");
       expect(navigateMock).toHaveBeenCalledWith("/home");
@@ -119,16 +118,16 @@ describe("RegisterPage", () => {
     );
 
     fireEvent.change(screen.getByLabelText(/Nome/i), {
-      target: { value: "Eduardo" },
+      target: { value: "Jacto" },
     });
     fireEvent.change(screen.getByLabelText(/^E-mail$/i), {
-      target: { value: "edu@teste.com" },
+      target: { value: "jacto@jacto.com" },
     });
     fireEvent.change(screen.getByLabelText(/^Senha$/i), {
-      target: { value: "123456" },
+      target: { value: "jactoo" },
     });
     fireEvent.change(screen.getByLabelText(/Confirmar Senha/i), {
-      target: { value: "123456" },
+      target: { value: "jactoo" },
     });
 
     fireEvent.click(screen.getByRole("button", { name: /Criar Conta/i }));

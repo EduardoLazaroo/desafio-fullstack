@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'jacto',
             'email' => 'jacto@jacto',
-            'password' => bcrypt('jacto'),
+            'password' => bcrypt('jactoo'),
         ]);
         $this->call(MovieSeeder::class);
     }

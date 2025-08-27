@@ -1,4 +1,4 @@
-# Projeto meuFilme.io (README Temporário)
+# meuFilme.io
 
 ![PHP](https://img.shields.io/badge/PHP-8.2.29-blue)
 ![Laravel](https://img.shields.io/badge/Laravel-12.25.0-red)
@@ -12,7 +12,7 @@
 ---
 
 ## Aviso rápido
-> Este é um README temporário, com passos mínimos para subir a aplicação localmente.  
+> Este é um README, com passos mínimos para subir a aplicação localmente e realizar testes.  
 > Presumo que você esteja usando Docker / Docker Compose para backend, banco e frontend.
 
 ---
@@ -47,6 +47,9 @@ docker compose restart [nome_arquivo]
 docker compose ps
 ```
 
+---
+
+
 ## 2. Backend
 ```bash
 # Abrir um shell no container do backend
@@ -65,9 +68,12 @@ php artisan migrate --seed   # remova --seed se não quiser
 
 # Usuário de teste:
 # email: jacto@jacto
-# password: jacto
+# password: jactoo (6 caracteres)
 
 ```
+
+---
+
 
 ## 3. Frontend
 ```bash
@@ -78,14 +84,32 @@ docker compose start frontend
 docker compose exec frontend npm install
 ```
 
+---
+
+
 ## 4. Como acessar
 - Backend API: http://localhost:8000/api
 - Frontend: http://localhost:3000
 - Ajuste as portas conforme seu docker-compose.yml caso necessário
 
+
+---
+
+
 ## 5. Testes unitários
+```bash
+# Antes de rodar os testes, inicie os containers:
+docker compose up -d --build
+```
+
 - 5.1 Frontend
 ```bash
 # jsdom, redux-mock-store, vitest.
 docker compose exec frontend npm run test
+```
+
+- 5.2 Backend
+```bash
+# PHPUnit - Unit e Feature
+docker exec -it laravel_app php artisan test
 ```

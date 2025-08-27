@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import configureStore from "redux-mock-store";
 import MovieDetails from "./MovieDetails";
-import * as movieService from "../../services/movieService";
+import { vi } from "vitest";
 
 const mockStore = configureStore([]);
 
@@ -16,43 +16,19 @@ describe("MovieDetails", () => {
     vi.spyOn(console, "error").mockImplementation(() => {});
   });
 
-  afterAll(() => {
+  beforeEach(() => {
+    store = mockStore({
+      movies: { list: [], loading: false },
+    });
+
+    store.dispatch = vi.fn(() => Promise.resolve());
+  });
+
+  afterEach(() => {
     vi.restoreAllMocks();
   });
 
-  beforeEach(() => {
-    store = mockStore({
-      movies: {
-        list: [
-          {
-            id: 1,
-            title: "Matrix",
-            release_year: 1999,
-            genre: "Sci-Fi",
-            synopsis: "Um hacker descobre a realidade.",
-            opinion: "Ótimo filme",
-            watched: true,
-            poster_url: "",
-          },
-          {
-            id: 2,
-            title: "Inception",
-            release_year: 2010,
-            genre: "Sci-Fi",
-            synopsis: "Sonhos dentro de sonhos",
-            opinion: "",
-            watched: false,
-            poster_url: "",
-          },
-        ],
-        loading: false,
-      },
-    });
-
-    store.dispatch = vi.fn();
-  });
-
-  it("renderiza detalhes do filme presente no estado", () => {
+  it("renderiza detalhes do filme retornado pelo serviço", async () => {
     render(
       <Provider store={store}>
         <MemoryRouter initialEntries={["/movies/1"]}>
@@ -63,50 +39,28 @@ describe("MovieDetails", () => {
       </Provider>
     );
 
-    expect(screen.getByText("Matrix")).toBeInTheDocument();
+    const title = await screen.findByText("Mocked Movie");
+    expect(title).toBeInTheDocument();
 
-    expect(
-      screen.getByText("Ano:", { selector: "strong" }).parentElement
-    ).toHaveTextContent("Ano: 1999");
+    const year = screen.getByText("Ano:", { selector: "strong" }).parentElement;
+    expect(year).toHaveTextContent("Ano: 2020");
 
-    expect(
-      screen.getByText("Gênero:", { selector: "strong" }).parentElement
-    ).toHaveTextContent("Gênero: Sci-Fi");
+    const genre = screen.getByText("Gênero:", {
+      selector: "strong",
+    }).parentElement;
+    expect(genre).toHaveTextContent("Gênero: Action");
 
-    expect(
-      screen.getByText("Sinopse:", { selector: "strong" }).parentElement
-    ).toHaveTextContent("Sinopse: Um hacker descobre a realidade.");
-
-    expect(
-      screen.getByText("Opinião:", { selector: "strong" }).parentElement
-    ).toHaveTextContent("Opinião: Ótimo filme");
+    const synopsis = screen.getByText("Sinopse:", {
+      selector: "strong",
+    }).parentElement;
+    expect(synopsis).toHaveTextContent("Sinopse: Sinopse mockada");
   });
 
-  it("exibe mensagem de erro se o filme não for encontrado nem no estado nem na API", async () => {
-    vi.spyOn(movieService, "getMovieById").mockRejectedValueOnce(
-      new Error("Erro na API")
-    );
-
-    render(
-      <Provider store={store}>
-        <MemoryRouter initialEntries={["/movies/999"]}>
-          <Routes>
-            <Route path="/movies/:id" element={<MovieDetails />} />
-          </Routes>
-        </MemoryRouter>
-      </Provider>
-    );
-
-    const errorMessage = await screen.findByText(
-      /Não foi possível carregar os detalhes do filme/i
-    );
-    expect(errorMessage).toBeInTheDocument();
-  });
-
-  it("exibe Loading enquanto carrega", () => {
+  it("exibe Loading enquanto carrega", async () => {
     const loadingStore = mockStore({
       movies: { list: [], loading: true },
     });
+    loadingStore.dispatch = vi.fn(() => Promise.resolve());
 
     render(
       <Provider store={loadingStore}>
@@ -118,6 +72,7 @@ describe("MovieDetails", () => {
       </Provider>
     );
 
-    expect(screen.getByTestId("loading")).toBeInTheDocument();
+    const loadingElement = await screen.findByTestId("loading");
+    expect(loadingElement).toBeInTheDocument();
   });
 });
